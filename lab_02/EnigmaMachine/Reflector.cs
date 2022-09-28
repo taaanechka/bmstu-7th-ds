@@ -29,10 +29,10 @@ namespace EnigmaMachine
 
                 idxList.RemoveAt(idx);
 
-                int val_k = idxList.IndexOf(k);
-                if (val_k >= 0)
+                int idx_k = idxList.IndexOf(k);
+                if (idx_k >= 0)
                 {
-                    idxList.RemoveAt(val_k);
+                    idxList.RemoveAt(idx_k);
                 }
 
                 k++;
