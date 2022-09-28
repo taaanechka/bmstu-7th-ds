@@ -57,7 +57,7 @@ namespace EnigmaMachine
                 resSign = rotorsArr[i].getIndex(resSign);
             }
 
-            for (int i = rotorsNum; rotorsArr[rotorsNum - i].rotate() == 0 && i > 1; i--)
+            for (int i = 0; rotorsArr[i].rotate() == 0 && i < rotorsNum - 1; i++)
                 ;
 
             return resSign;
