@@ -1,5 +1,5 @@
 # bmstu-7th-ds
-Data Security
+Data Security 2022
 
 Labs:
 1. Installer + software
