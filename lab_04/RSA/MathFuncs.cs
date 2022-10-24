@@ -17,18 +17,55 @@ namespace RSA
             return a;
         }
 
-        // функция проверяет - простое ли число n
-        public static bool IsNumberPrimePrecise(int num)
+        // Решето Эратосфена
+        // на выходе простые числа до n включительно
+        static List<int> EratosthenesSieve(int n)
         {
-            if (num > 1)
+            var flags = new List<bool>();
+            for (int i = 0; i < n + 1; i++)
             {
-                for (int i = 2; i < num; i++)
-                    if (num % i == 0)
-                        return false;
-                return true;
+                flags.Add(false);
             }
 
-            return false;
+            int len = (int)Math.Sqrt(n);
+
+            for (int i = 2; i <= len; i++)
+            {
+                if (!flags[i])
+                    for (int j = 2; i*j <= n; j++)
+                    {
+                        flags[i*j] = true;
+                    }
+            }
+
+            var nums = new List<int>();
+
+            for (int i = 2; i < n + 1; i++)
+            {
+                if (!flags[i])
+                    nums.Add(i);
+            }
+
+            return nums;
+        }
+
+        // Получение простых числе в диапазоне(start, stop)
+        public static List<int> GetPrimeNumbers(int start, int stop)
+        {
+            var nums = EratosthenesSieve(stop);
+            int len = nums.Count();
+
+            var res = new List<int>();
+
+            int i  = 0;
+            while (nums[i++] < start) ;
+
+            for (int j = i; j < len; j++)
+            {
+                res.Add(nums[j]);
+            }
+
+            return nums;
         }
 
         /// Расширенный алгоритм Евклида (соотношение Безу)

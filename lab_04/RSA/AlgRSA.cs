@@ -6,8 +6,8 @@ namespace RSA
     {
         private static Random r = new Random(1);
 
-        private const int start = 1000;
-        private const int stop = 9000;
+        private const int start = 30000;
+        private const int stop = 40000;
 
         public int publicKey;
         public int privateKey;
@@ -15,8 +15,9 @@ namespace RSA
 
         public AlgRSA()
         {
-            int p = GetRandomPrimeNum();
-            int q = GetRandomPrimeNum();
+            int p, q;
+
+            (p, q) = GetRandomPrimeNums();
             
             n = p * q; // модуль
 
@@ -25,11 +26,9 @@ namespace RSA
             int fi = (p - 1) * (q - 1);
 
             // Выбираем открытую экспененту (e).
-            // e и n публичный ключ. 
             publicKey = ComputePublicKey(fi);
             
             // Вычисляем секретную экспоненту (d).
-            // d и n закрытый ключ.
             privateKey = ComputePrivateKey(publicKey, fi);
         }
 
@@ -55,14 +54,19 @@ namespace RSA
             return (int)BigInteger.ModPow(c, privateKey, n);
         }
 
-        static int GetRandomPrimeNum()
+        /// <summary>
+        /// Получение p и q
+        /// </summary>
+        /// <returns>(p, q)</returns>
+        static (int, int) GetRandomPrimeNums()
         {
-            int num = r.Next(start, stop);
+            var primeNums = MathFuncs.GetPrimeNumbers(start, stop);
+            int primeLen = primeNums.Count();
 
-            while (!MathFuncs.IsNumberPrimePrecise(num))
-                num = r.Next(start, stop);
+            int p_ind = r.Next(primeLen);
+            int q_ind = r.Next(primeLen);
 
-            return num;
+            return (primeNums[p_ind], primeNums[q_ind]);
         }
 
         /// <summary>

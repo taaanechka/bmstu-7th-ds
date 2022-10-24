@@ -5,7 +5,6 @@ namespace RSA
 {
     public class Cipher
     {
-        // static UInt64 publicKey, privateKey, n;
         static int publicKey, privateKey, n;
         AlgRSA rsa;
 
@@ -15,16 +14,6 @@ namespace RSA
             publicKey = rsa.publicKey;
             privateKey = rsa.privateKey;
             n = rsa.n;
-
-            // using (BinaryWriter writer = new BinaryWriter(File.Open("data/out/publicKey.txt", FileMode.OpenOrCreate)))
-            // {
-            //     writer.Write(publicKey);
-            // }
-
-            // using (BinaryWriter writer = new BinaryWriter(File.Open("data/out/privateKey.txt", FileMode.OpenOrCreate)))
-            // {
-            //     writer.Write(privateKey);
-            // }
         }
 
         public int Encrypt(string inFile, string outFile)
@@ -58,7 +47,6 @@ namespace RSA
             return Consts.OK;
         }
 
-        // private static UInt64 DoEcryption(UInt64 blk)
         private static int DoEcryption(int blk)
         {
             return (int)BigInteger.ModPow(blk, publicKey, n);
@@ -94,7 +82,6 @@ namespace RSA
             return Consts.OK;
         }
 
-        // private static UInt64 DoDecryption(UInt64 blk)
         private static int DoDecryption(int blk)
         {
             return (int)BigInteger.ModPow(blk, privateKey, n);

@@ -43,18 +43,6 @@ namespace RSA
                     Console.WriteLine("Done!");
                 }
             }
-            
-            // string fileNameScr = @"data/in/img.jpg";                //@"test_video.gif"; @"img.jpg"; @"text.txt";
-            // string fileNameCipher = @"data/out/ciphered.jpg";
-            // string fileNameResult = @"data/out/deciphered.jpg";
-
-            // Cipher cipher = new Cipher();
-
-            // cipher.Encrypt(fileNameScr, fileNameCipher);
-            // cipher.Decrypt(fileNameCipher, fileNameResult);
-
-            // Console.WriteLine("Done!!!");
-            // // Console.ReadKey();
         }
     }
 }
