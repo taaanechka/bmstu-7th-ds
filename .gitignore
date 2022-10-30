@@ -8,10 +8,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # data for tests
-*.txt
-*.jpg
-*.mp4
-*.gif
+**/data
+**/tables
 
 # User-specific files
 *.rsuser
