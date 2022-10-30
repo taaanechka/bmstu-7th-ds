@@ -7,14 +7,17 @@ namespace HuffmanAlg
 {
     class Reader
     {
-        public static byte[] FileRead(string filename)
+        public static byte[] FileRead(string filename, out int err)
         {
-            byte[] text = null;
+            err = Consts.OK;
 
-            if (File.Exists(filename))
-                text = File.ReadAllBytes(filename);
+            if (!File.Exists(filename))
+            {
+                err = (int)Consts.Errors.ExistsErr;
+                return null;
+            }
 
-            return text;
+            return File.ReadAllBytes(filename);
         }
     }
 

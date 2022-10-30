@@ -1,12 +1,23 @@
+#nullable disable
+
 using System.Collections;
 
 namespace HuffmanAlg
 {
     public class Huffman
     {
-        private static void _prepareText(string filename, out BitArray bitsCut)
+        private static int _prepareText(string filename, out BitArray bitsCut)
         {
-            byte[] text = Reader.FileRead(filename);
+            int err = Consts.OK;
+
+            byte[] text = Reader.FileRead(filename, out err);
+            if (err != Consts.OK)
+            {
+                bitsCut = null;
+                return err;
+            }
+                
+
             byte sizeUseless = text[text.Length - 1];
 
             Array.Resize(ref text, text.Length - 1);
@@ -17,6 +28,8 @@ namespace HuffmanAlg
 
             for (int i = 0; i < bitsCut.Length; i++)
                 bitsCut[i] = bitsFull[i];
+
+            return err;
         }
 
         private static void _createFrequencyTable(byte[] text, out Dictionary<byte, int> dict)
@@ -53,8 +66,6 @@ namespace HuffmanAlg
 
             _getNodesList(dict, out stat);
             BinaryTree<int>.Create(stat, out tree);
-
-            //tree.ConsolePrintTree();
         }
 
         private static void _createCodesArr(BinaryTree<int> tree, ref Dictionary<byte, string> codeArr)
@@ -106,14 +117,20 @@ namespace HuffmanAlg
             return bits;
         }
 
-        public static BinaryTree<int> Compress(string fileSrc, string fileDest)
+        public static int Compress(string fileSrc, string fileDest, out BinaryTree<int> tree)
         {
             Dictionary<byte, int> dict;
             Dictionary<byte, string> codeArr = new Dictionary<byte, string>();
-            BinaryTree<int> tree;
             BitArray bits;
 
-            byte[] text = Reader.FileRead(fileSrc);
+            int err = Consts.OK;
+
+            byte[] text = Reader.FileRead(fileSrc, out err);
+            if (err != Consts.OK)
+            {
+                tree = null;
+                return err;
+            }
             
             _createFrequencyTable(text, out dict);
 
@@ -124,16 +141,19 @@ namespace HuffmanAlg
 
             Writer.FileWrite(bits, fileDest);
 
-            return tree;
+            return err;
         }
 
-        public static void Decompress(string fileSrc, string fileDest, BinaryTree<int> tree)
+        public static int Decompress(string fileSrc, string fileDest, BinaryTree<int> tree)
         {
             List<byte> res = new List<byte>();
             BitArray bits;
             TreeNode<int> node = tree.root;
 
-            _prepareText(fileSrc, out bits);
+            int err = _prepareText(fileSrc, out bits);
+
+            if (err != Consts.OK)
+                return err;
 
             foreach (bool bit in bits)
             {
@@ -156,6 +176,8 @@ namespace HuffmanAlg
             }
 
             Writer.FileWrite(res.ToArray(), fileDest);
+
+            return err;
         }
     }
 }

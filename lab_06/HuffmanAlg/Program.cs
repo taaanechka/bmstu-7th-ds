@@ -22,16 +22,24 @@
                 string compressedFilename = @$"data/out/compressed{strEnd}";
                 string decompressedFilename = @$"data/out/decompressed{strEnd}"; //jpg"; //txt"; //mp4"; //gif;
 
-                string fileTree = @"data/out/tree.json";
+                string treeFilename = @"data/out/tree.json";
 
                 Console.WriteLine("Wait, please.");
 
-                BinaryTree<int> tree = Huffman.Compress(srcFilename, compressedFilename);
-                
-                tree.ConsolePrintTree();
-                tree.ConvertToJSON(fileTree);
+                BinaryTree<int> tree;
+                if (Huffman.Compress(srcFilename, compressedFilename, out tree) != Consts.OK)
+                {
+                    Console.WriteLine(@$"ERR: file '{srcFilename}' doesn't exist.");
+                }
+                else
+                {
+                    tree.ConsolePrintTree();
+                    tree.ConvertToJSON(treeFilename);
 
-                Huffman.Decompress(compressedFilename, decompressedFilename, BinaryTree<int>.ConvertFromJSON(fileTree));
+                    Huffman.Decompress(compressedFilename, decompressedFilename, BinaryTree<int>.ConvertFromJSON(treeFilename));
+
+                    Console.WriteLine("Done!");
+                }
             }
         }
     }
